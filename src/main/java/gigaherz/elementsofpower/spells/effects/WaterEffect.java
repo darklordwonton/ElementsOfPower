@@ -5,8 +5,11 @@ import net.minecraft.block.Block;
 import net.minecraft.block.BlockDynamicLiquid;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.Entity;
+import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.init.Blocks;
+import net.minecraft.util.DamageSource;
 import net.minecraft.util.EnumParticleTypes;
+import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.RayTraceResult;
 import net.minecraft.util.math.Vec3d;
@@ -49,7 +52,7 @@ public class WaterEffect extends SpellEffect
     @Override
     public void processDirectHit(Spellcast cast, Entity entity, Vec3d hitVec)
     {
-        float damage = 5 * ((entity instanceof EntityBlaze) ? 3 + cast.getDamageForce() : cast.getDamageForce());
+        float damage = 5 * cast.getDamageForce();
 
         entity.attackEntityFrom(DamageSource.causeIndirectMagicDamage(cast.player, cast.player), damage);
     }

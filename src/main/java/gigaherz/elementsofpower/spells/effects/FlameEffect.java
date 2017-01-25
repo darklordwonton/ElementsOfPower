@@ -6,9 +6,6 @@ import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.item.EntityItem;
-import net.minecraft.entity.monster.EntityBlaze;
-import net.minecraft.entity.projectile.EntityFireball;
-import net.minecraft.entity.projectile.EntitySmallFireball;
 import net.minecraft.init.Blocks;
 import net.minecraft.util.DamageSource;
 import net.minecraft.util.EnumParticleTypes;
@@ -85,7 +82,7 @@ public class FlameEffect extends SpellEffect
 
             double lv = Math.max(0, cast.getDamageForce() - ll);
 
-            boolean canAttack = e.attackEntityFrom(DamageSource.causeIndirectMagicDamage(cast.player, cast.player), 5.0F * lv);
+            boolean canAttack = e.attackEntityFrom(DamageSource.causeIndirectMagicDamage(cast.player, cast.player), 5 * lv);
 
             if (canAttack)
             {
