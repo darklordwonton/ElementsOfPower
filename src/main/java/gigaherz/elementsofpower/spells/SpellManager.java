@@ -169,12 +169,11 @@ public class SpellManager
             {
                 HashMultiset<Element> multiset = HashMultiset.create();
                 multiset.addAll(sequence);
-
-                float total = (float) Math.ceil(Math.pow(3, sequence.size()) * (1 + 0.6 * multiset.size()));
-
+				
                 for (Multiset.Entry<Element> e : multiset.entrySet())
                 {
-                    amounts.amounts[e.getElement().ordinal()] += total * e.getCount() / sequence.size();
+					if (e.getCount() > 0)
+                    	amounts.amounts[e.getElement().ordinal()] += 5 * (e.getCount() * (e.getCount() + 1));
                 }
             }
 
@@ -241,16 +240,6 @@ public class SpellManager
 
         private void addModifier(Element e)
         {
-            if (sequence.get(sequence.size() - 1) == e.getOpposite())
-            {
-                sequence.remove(sequence.size() - 1);
-                if (sequence.size() == 0)
-                {
-                    reset();
-                    return;
-                }
-            }
-
             shape = e.getShape();
 
             switch (e)

@@ -52,7 +52,7 @@ public class WaterEffect extends SpellEffect
     @Override
     public void processDirectHit(Spellcast cast, Entity entity, Vec3d hitVec)
     {
-        float damage = 5 * cast.getDamageForce();
+        float damage = 3 + 3 * cast.getDamageForce();
 
         entity.attackEntityFrom(DamageSource.causeIndirectMagicDamage(cast.player, cast.player), damage);
     }

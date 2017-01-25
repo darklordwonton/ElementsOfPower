@@ -50,7 +50,7 @@ public class WindEffect extends SpellEffect
                 || !entity.isEntityAlive())
             return;
 		
-        entity.attackEntityFrom(DamageSource.causeIndirectMagicDamage(cast.player, cast.player), 5 * force);
+        entity.attackEntityFrom(DamageSource.causeIndirectMagicDamage(cast.player, cast.player), 3 + 3 * force);
 		
         applyVelocity(cast, force, hitVec, entity, false);
     }
