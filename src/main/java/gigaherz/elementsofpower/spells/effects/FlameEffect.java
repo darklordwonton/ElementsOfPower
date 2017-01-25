@@ -85,7 +85,7 @@ public class FlameEffect extends SpellEffect
 
             double lv = Math.max(0, cast.getDamageForce() - ll);
 
-            boolean canAttack = e.attackEntityFrom(DamageSource.causeIndirectMagicDamage(cast.player, cast.player), 5.0F * 1v);
+            boolean canAttack = e.attackEntityFrom(DamageSource.causeIndirectMagicDamage(cast.player, cast.player), 5.0F * lv);
 
             if (canAttack)
             {
