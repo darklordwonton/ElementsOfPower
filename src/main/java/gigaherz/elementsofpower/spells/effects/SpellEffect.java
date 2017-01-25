@@ -13,6 +13,7 @@ import net.minecraft.util.math.RayTraceResult;
 import net.minecraft.util.math.Vec3d;
 
 import javax.annotation.Nullable;
+import java.util.List;
 
 public abstract class SpellEffect
 {
@@ -51,7 +52,7 @@ public abstract class SpellEffect
 
             double lv = Math.max(0, cast.getDamageForce() - ll);
 
-            e.attackEntityFrom(DamageSource.causeIndirectMagicDamage(cast.player, cast.player), 5.0F * lv);
+            e.attackEntityFrom(DamageSource.causeIndirectMagicDamage(cast.player, cast.player), (float)(5 * lv));
         }
 	}
 
