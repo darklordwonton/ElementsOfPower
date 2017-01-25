@@ -1,3 +1,5 @@
+This is fork of gigaherz's Elements Of Power mod. This shouldn't infringe on the liscense but if gigaherz wants it taken down I will oblige. Below is the original description.
+
 Elements Of Power
 =============
 
