@@ -48,7 +48,9 @@ public class WindEffect extends SpellEffect
         if ((!(entity instanceof EntityLivingBase) && !(entity instanceof EntityItem))
                 || !entity.isEntityAlive())
             return;
-
+		
+        entity.attackEntityFrom(DamageSource.causeIndirectMagicDamage(cast.player, cast.player), 5 * force);
+		
         applyVelocity(cast, force, hitVec, entity, false);
     }
 
@@ -77,6 +79,15 @@ public class WindEffect extends SpellEffect
     @Override
     public void processEntitiesAroundAfter(Spellcast cast, Vec3d hitVec)
     {
+        AxisAlignedBB aabb = new AxisAlignedBB(
+                hitVec.xCoord - cast.getDamageForce(),
+                hitVec.yCoord - cast.getDamageForce(),
+                hitVec.zCoord - cast.getDamageForce(),
+                hitVec.xCoord + cast.getDamageForce(),
+                hitVec.yCoord + cast.getDamageForce(),
+                hitVec.zCoord + cast.getDamageForce());
+
+        damageEntities(cast, hitVec, cast.world.getEntitiesWithinAABB(EntityLivingBase.class, aabb));
     }
 
     private void pushEntities(Spellcast cast, int force, Vec3d hitVec, List<? extends Entity> entities)

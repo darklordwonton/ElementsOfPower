@@ -58,7 +58,7 @@ public class HarmEffect extends SpellEffect
     {
         double lv = Math.max(0, cast.getDamageForce() - distance);
 
-        causePotionEffect(cast, e, MobEffects.INSTANT_DAMAGE, 0, lv, 0.0);
+        causePotionEffect(cast, e, MobEffects.INSTANT_DAMAGE, Math.max(0, lv - 1), lv, 0.0);
     }
 
     @Override

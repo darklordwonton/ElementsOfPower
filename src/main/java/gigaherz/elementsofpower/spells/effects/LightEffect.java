@@ -49,7 +49,7 @@ public class LightEffect extends SpellEffect
     @Override
     public void processEntitiesAroundAfter(Spellcast cast, Vec3d hitVec)
     {
-
+		
     }
 
     @Override

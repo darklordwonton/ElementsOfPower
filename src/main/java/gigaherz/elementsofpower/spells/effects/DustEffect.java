@@ -37,7 +37,9 @@ public class DustEffect extends SpellEffect
     @Override
     public void processDirectHit(Spellcast cast, Entity entity, Vec3d hitVec)
     {
+        float damage = 5 * cast.getDamageForce();
 
+        entity.attackEntityFrom(DamageSource.causeIndirectMagicDamage(cast.player, cast.player), damage);
     }
 
     @Override
@@ -49,7 +51,15 @@ public class DustEffect extends SpellEffect
     @Override
     public void processEntitiesAroundAfter(Spellcast cast, Vec3d hitVec)
     {
+        AxisAlignedBB aabb = new AxisAlignedBB(
+                hitVec.xCoord - cast.getDamageForce(),
+                hitVec.yCoord - cast.getDamageForce(),
+                hitVec.zCoord - cast.getDamageForce(),
+                hitVec.xCoord + cast.getDamageForce(),
+                hitVec.yCoord + cast.getDamageForce(),
+                hitVec.zCoord + cast.getDamageForce());
 
+        damageEntities(cast, hitVec, cast.world.getEntitiesWithinAABB(EntityLivingBase.class, aabb));
     }
 
     @Override

@@ -43,9 +43,9 @@ public class FlameEffect extends SpellEffect
     @Override
     public void processDirectHit(Spellcast cast, Entity entity, Vec3d hitVec)
     {
-        float damage = (entity instanceof EntityBlaze) ? 3 + cast.getDamageForce() : cast.getDamageForce();
+        float damage = 5 * cast.getDamageForce();
 
-        entity.attackEntityFrom(DamageSource.causeThrownDamage(cast.projectile, cast.player), damage);
+        entity.attackEntityFrom(DamageSource.causeIndirectMagicDamage(cast.player, cast.player), damage);
         entity.setFire(cast.getDamageForce());
     }
 
@@ -72,8 +72,6 @@ public class FlameEffect extends SpellEffect
 
     private void burnEntities(Spellcast cast, Vec3d hitVec, List<? extends Entity> living)
     {
-        EntityFireball ef = new EntitySmallFireball(cast.world);
-
         for (Entity e : living)
         {
             if (!e.isEntityAlive())
@@ -87,7 +85,7 @@ public class FlameEffect extends SpellEffect
 
             double lv = Math.max(0, cast.getDamageForce() - ll);
 
-            boolean canAttack = e.attackEntityFrom(DamageSource.causeFireballDamage(ef, cast.player), 5.0F);
+            boolean canAttack = e.attackEntityFrom(DamageSource.causeIndirectMagicDamage(cast.player, cast.player), 5.0F * 1v);
 
             if (canAttack)
             {

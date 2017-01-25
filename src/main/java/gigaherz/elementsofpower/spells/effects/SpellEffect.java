@@ -35,6 +35,24 @@ public abstract class SpellEffect
 
     public abstract void processBlockWithinRadius(Spellcast cast, BlockPos blockPos, IBlockState currentState, float distance, @Nullable RayTraceResult mop);
 
+	public void damageEntities(Spellcast cast, Vec3d hitVec, List<? extends Entity> living) {
+        for (Entity e : living)
+        {
+            if (!e.isEntityAlive())
+                continue;
+
+            double dx = e.posX - hitVec.xCoord;
+            double dy = e.posY - hitVec.yCoord;
+            double dz = e.posZ - hitVec.zCoord;
+
+            double ll = Math.sqrt(dx * dx + dy * dy + dz * dz);
+
+            double lv = Math.max(0, cast.getDamageForce() - ll);
+
+            e.attackEntityFrom(DamageSource.causeIndirectMagicDamage(ef, cast.player), 5.0F * lv);
+        }
+	}
+
     protected static void causePotionEffect(Spellcast cast, EntityLivingBase e, Potion potion, int amplifier, double distance, double durationBase)
     {
         if (potion.isInstant())
