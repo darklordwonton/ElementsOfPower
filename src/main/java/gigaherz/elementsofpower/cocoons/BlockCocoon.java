@@ -333,7 +333,7 @@ public class BlockCocoon extends BlockRegistered
 
                             te.essenceContained.add(am2);
 
-                            ElementsOfPower.logger.warn("Generated at: " + pos + " near " + world.getBlockState(pos1).getBlock().getLocalizedName() + " with " + te.essenceContained);
+                            //ElementsOfPower.logger.warn("Generated at: " + pos + " near " + world.getBlockState(pos1).getBlock().getLocalizedName() + " with " + te.essenceContained);
                         }
 
                         return;

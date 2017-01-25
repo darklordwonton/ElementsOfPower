@@ -115,30 +115,31 @@ public class RecipeTools
 
                     if (OreDictionary.itemMatches(s, output, false))
                     {
+						if (s.stackSize != 0 && output.stackSize != 0) {
+                        	int numNeeded = s.stackSize;
+                        	int numProduced = output.stackSize;
+                        	int num = Utils.lcm(numNeeded, numProduced);
 
-                        int numNeeded = s.stackSize;
-                        int numProduced = output.stackSize;
-                        int num = Utils.lcm(numNeeded, numProduced);
+                        	int mult = num / numNeeded;
 
-                        int mult = num / numNeeded;
+                        	result.stackSize *= mult;
+                        	for (ItemStack t : stacks)
+                        	{
+                            	t.stackSize *= mult;
+                        	}
 
-                        result.stackSize *= mult;
-                        for (ItemStack t : stacks)
-                        {
-                            t.stackSize *= mult;
-                        }
+                        	totalMult *= mult;
 
-                        totalMult *= mult;
+                        	int mult2 = num / numProduced;
+                        	for (ItemStack t : items)
+                        	{
+                            	ItemStack r = t.copy();
+                            	r.stackSize *= mult2;
+                            	stacks.add(r);
+                        	}
 
-                        int mult2 = num / numProduced;
-                        for (ItemStack t : items)
-                        {
-                            ItemStack r = t.copy();
-                            r.stackSize *= mult2;
-                            stacks.add(r);
-                        }
-
-                        anythingChanged = true;
+                        	anythingChanged = true;
+						}
                     }
                     else
                     {

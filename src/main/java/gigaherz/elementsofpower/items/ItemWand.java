@@ -20,12 +20,7 @@ public class ItemWand extends ItemGemContainer
     @Override
     public ActionResult<ItemStack> onItemRightClick(ItemStack itemStackIn, World worldIn, EntityPlayer playerIn, EnumHand hand)
     {
-        if (hand == EnumHand.MAIN_HAND)
-        {
-            ElementsOfPower.proxy.beginTracking(playerIn, hand);
-            return ActionResult.newResult(EnumActionResult.SUCCESS, itemStackIn);
-        }
-
-        return ActionResult.newResult(EnumActionResult.FAIL, itemStackIn);
+        ElementsOfPower.proxy.beginTracking(playerIn, hand);
+        return ActionResult.newResult(EnumActionResult.SUCCESS, itemStackIn);
     }
 }
