@@ -55,9 +55,9 @@ public class ItemGemContainer extends ItemMagicContainer
 
         Element e = g.getElement();
         if (e == null)
-            magic.all(magic.amounts[0] * 0.1f);
+            magic.all(magic.amounts[0] * 0.2f);
         else
-            magic.element(g.getElement(), magic.amount(g.getElement()) * 0.25f);
+            magic.element(g.getElement(), magic.amount(g.getElement()) * 1.0f);
 
         return magic;
     }
