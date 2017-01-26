@@ -43,7 +43,7 @@ public class FlameEffect extends SpellEffect
     public void processDirectHit(Spellcast cast, Entity entity, Vec3d hitVec)
     {
         float damage = 3 + 3 * cast.getDamageForce();
-		if (cast.shape instanceof ConeShape || cast.shape instanceof BeamShape)
+		if (cast.getShape() instanceof ConeShape || cast.getShape() instanceof BeamShape)
 			damage = damage / 3;
 
         entity.attackEntityFrom(DamageSource.causeIndirectMagicDamage(cast.player, cast.player), damage);

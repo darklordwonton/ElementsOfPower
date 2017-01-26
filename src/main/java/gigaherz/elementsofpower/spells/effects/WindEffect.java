@@ -53,7 +53,7 @@ public class WindEffect extends SpellEffect
             return;
 		
 		float damage = 3 + 3 * force;
-		if (cast.shape instanceof ConeShape || cast.shape instanceof BeamShape)
+		if (cast.getShape() instanceof ConeShape || cast.getShape() instanceof BeamShape)
 			damage = damage / 3;
 		
         entity.attackEntityFrom(DamageSource.causeIndirectMagicDamage(cast.player, cast.player), damage);
