@@ -1,6 +1,8 @@
 package gigaherz.elementsofpower.spells.effects;
 
 import gigaherz.elementsofpower.spells.Spellcast;
+import gigaherz.elementsofpower.spells.shapes.ConeShape;
+import gigaherz.elementsofpower.spells.shapes.BeamShape;
 import net.minecraft.block.Block;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.Entity;
@@ -34,13 +36,15 @@ public class FlameEffect extends SpellEffect
     @Override
     public int getColor(Spellcast cast)
     {
-        return 0x0000ff;
+        return 0xFF0000;
     }
 
     @Override
     public void processDirectHit(Spellcast cast, Entity entity, Vec3d hitVec)
     {
-        float damage = 5 * cast.getDamageForce();
+        float damage = 3 + 3 * cast.getDamageForce();
+		if (cast.shape instanceof ConeShape || cast.shape instanceof BeamShape)
+			damage = damage / 3;
 
         entity.attackEntityFrom(DamageSource.causeIndirectMagicDamage(cast.player, cast.player), damage);
         entity.setFire(cast.getDamageForce());

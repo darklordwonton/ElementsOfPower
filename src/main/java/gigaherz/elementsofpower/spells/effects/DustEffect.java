@@ -3,6 +3,8 @@ package gigaherz.elementsofpower.spells.effects;
 import gigaherz.elementsofpower.ElementsOfPower;
 import gigaherz.elementsofpower.spells.Spellcast;
 import gigaherz.elementsofpower.spells.blocks.BlockDust;
+import gigaherz.elementsofpower.spells.shapes.ConeShape;
+import gigaherz.elementsofpower.spells.shapes.BeamShape;
 import net.minecraft.block.Block;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.Entity;
@@ -22,13 +24,13 @@ public class DustEffect extends SpellEffect
     @Override
     public int getColor(Spellcast cast)
     {
-        return 0x000000;
+        return 0x663300;
     }
 
     @Override
     public int getDuration(Spellcast cast)
     {
-        return 20 * 5;
+        return 20 * cast.getDamageForce();
     }
 
     @Override
@@ -41,6 +43,8 @@ public class DustEffect extends SpellEffect
     public void processDirectHit(Spellcast cast, Entity entity, Vec3d hitVec)
     {
         float damage = 3 + 3 * cast.getDamageForce();
+		if (cast.shape instanceof ConeShape || cast.shape instanceof BeamShape)
+			damage = damage / 3;
 
         entity.attackEntityFrom(DamageSource.causeIndirectMagicDamage(cast.player, cast.player), damage);
     }

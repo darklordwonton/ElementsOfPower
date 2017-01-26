@@ -3,6 +3,8 @@ package gigaherz.elementsofpower.spells.effects;
 import gigaherz.elementsofpower.ElementsOfPower;
 import gigaherz.elementsofpower.network.AddVelocityPlayer;
 import gigaherz.elementsofpower.spells.Spellcast;
+import gigaherz.elementsofpower.spells.shapes.ConeShape;
+import gigaherz.elementsofpower.spells.shapes.BeamShape;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockDynamicLiquid;
 import net.minecraft.block.state.IBlockState;
@@ -32,7 +34,7 @@ public class WindEffect extends SpellEffect
     @Override
     public int getDuration(Spellcast cast)
     {
-        return 20 * 5;
+        return 20 * cast.getDamageForce();
     }
 
     @Override
@@ -50,7 +52,11 @@ public class WindEffect extends SpellEffect
                 || !entity.isEntityAlive())
             return;
 		
-        entity.attackEntityFrom(DamageSource.causeIndirectMagicDamage(cast.player, cast.player), 3 + 3 * force);
+		float damage = 3 + 3 * force;
+		if (cast.shape instanceof ConeShape || cast.shape instanceof BeamShape)
+			damage = damage / 3;
+		
+        entity.attackEntityFrom(DamageSource.causeIndirectMagicDamage(cast.player, cast.player), damage);
 		
         applyVelocity(cast, force, hitVec, entity, false);
     }
