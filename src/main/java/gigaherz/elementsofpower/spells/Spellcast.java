@@ -124,7 +124,6 @@ public class Spellcast
 
                 if (!world.isRemote)
                 {
-                	System.out.println("update");
                     shape.spellTick(this);
                 }
             }
