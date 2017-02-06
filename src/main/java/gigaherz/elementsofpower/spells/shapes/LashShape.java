@@ -43,7 +43,6 @@ public class LashShape extends SpellShape {
 		for (int z = 0; z <= length; z++) {
 			Vec3d offset = new Vec3d(x,y,z + 1.5).rotateYaw(-(float)Math.toRadians(player.getPitchYaw().y));
 			BlockPos bp = new BlockPos(player.getPositionVector().add(offset));
-			System.out.println(x + " " + y + " " + z);
 			AxisAlignedBB aabb = new AxisAlignedBB(bp);
 			for (Entity e : cast.world.getEntitiesWithinAABB(EntityLivingBase.class, aabb))
 				effect.processDirectHit(cast, e, player.getPositionVector());
