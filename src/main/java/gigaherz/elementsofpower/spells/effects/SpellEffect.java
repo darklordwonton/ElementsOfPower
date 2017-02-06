@@ -52,7 +52,8 @@ public abstract class SpellEffect
 
             double lv = Math.max(0, cast.getDamageForce() - ll);
 
-            e.attackEntityFrom(DamageSource.causeIndirectMagicDamage(cast.player, cast.player), (float)(3 + 3 * lv));
+            if (e != cast.player)
+            	e.attackEntityFrom(DamageSource.causeIndirectMagicDamage(cast.player, cast.player), (float)(4 + 4 * lv));
         }
 	}
 

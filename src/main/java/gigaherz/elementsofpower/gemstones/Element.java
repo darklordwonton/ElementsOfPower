@@ -5,7 +5,7 @@ public enum Element
     Fire(1, Shape.Sphere),
     Water(0, Shape.Ball),
     Air(3, Shape.Cone),
-    Earth(2, Shape.Ball),
+    Earth(2, Shape.Lash),
     Light(5, Shape.Beam),
     Darkness(4, Shape.Beam),
     Life(7, Shape.Self),

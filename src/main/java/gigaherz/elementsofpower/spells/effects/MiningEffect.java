@@ -1,14 +1,21 @@
 package gigaherz.elementsofpower.spells.effects;
 
 import gigaherz.elementsofpower.spells.Spellcast;
+import gigaherz.elementsofpower.spells.shapes.BeamShape;
+import gigaherz.elementsofpower.spells.shapes.ConeShape;
+import gigaherz.elementsofpower.spells.shapes.LashShape;
+import gigaherz.elementsofpower.spells.shapes.SingleShape;
 import net.minecraft.block.Block;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.Entity;
+import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.server.management.PlayerInteractionManager;
 import net.minecraft.tileentity.TileEntity;
+import net.minecraft.util.DamageSource;
 import net.minecraft.util.EnumHand;
+import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.RayTraceResult;
 import net.minecraft.util.math.Vec3d;
@@ -27,7 +34,7 @@ public class MiningEffect extends SpellEffect
     @Override
     public int getDuration(Spellcast cast)
     {
-        return 40 + 20 * cast.getDamageForce();
+        return 20 * cast.getDamageForce();
     }
 
     @Override
@@ -39,7 +46,14 @@ public class MiningEffect extends SpellEffect
     @Override
     public void processDirectHit(Spellcast cast, Entity entity, Vec3d hitVec)
     {
-
+        float damage = 4 + 4 * cast.getDamageForce();
+		if (cast.getShape() instanceof ConeShape || cast.getShape() instanceof BeamShape || cast.getShape() instanceof LashShape)
+			damage = damage / 2;
+        if (cast.getShape() instanceof SingleShape)
+        	damage *= 2;
+        
+        if (entity != cast.player)
+        	entity.attackEntityFrom(DamageSource.causeIndirectMagicDamage(cast.player, cast.player), damage);
     }
 
     @Override
@@ -51,7 +65,15 @@ public class MiningEffect extends SpellEffect
     @Override
     public void processEntitiesAroundAfter(Spellcast cast, Vec3d hitVec)
     {
+        AxisAlignedBB aabb = new AxisAlignedBB(
+                hitVec.xCoord - cast.getDamageForce(),
+                hitVec.yCoord - cast.getDamageForce(),
+                hitVec.zCoord - cast.getDamageForce(),
+                hitVec.xCoord + cast.getDamageForce(),
+                hitVec.yCoord + cast.getDamageForce(),
+                hitVec.zCoord + cast.getDamageForce());
 
+        damageEntities(cast, hitVec, cast.world.getEntitiesWithinAABB(EntityLivingBase.class, aabb));
     }
 
     @Override
@@ -70,7 +92,7 @@ public class MiningEffect extends SpellEffect
 
         float hardness = state.getBlockHardness(world, blockPos);
 
-        if (!block.isAir(state, world, blockPos) && hardness >= 0 && hardness <= (cast.getDamageForce() / 3.0f))
+        if (!block.isAir(state, world, blockPos) && hardness >= 0 && hardness <= (cast.getDamageForce()))
         {
             if (player instanceof EntityPlayerMP)
             {

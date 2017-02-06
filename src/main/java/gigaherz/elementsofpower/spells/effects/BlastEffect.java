@@ -6,6 +6,7 @@ import net.minecraft.entity.Entity;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.RayTraceResult;
 import net.minecraft.util.math.Vec3d;
+import net.minecraft.world.Explosion;
 
 import javax.annotation.Nullable;
 
@@ -32,19 +33,15 @@ public class BlastEffect extends SpellEffect
     @Override
     public void processDirectHit(Spellcast cast, Entity entity, Vec3d hitVec)
     {
-
     }
 
     @Override
     public boolean processEntitiesAroundBefore(Spellcast cast, Vec3d hitVec)
     {
-        if (!cast.world.isRemote)
-        {
-            boolean flag = cast.world.getGameRules().getBoolean("mobGriefing");
-            cast.world.newExplosion(null, hitVec.xCoord, hitVec.yCoord, hitVec.zCoord,
-                    cast.getDamageForce(), flag, flag);
-        }
-
+        boolean flag = cast.world.getGameRules().getBoolean("mobGriefing");
+        Explosion explosion = cast.world.newExplosion(null, hitVec.xCoord, hitVec.yCoord, hitVec.zCoord, cast.getDamageForce(), false, flag);
+        explosion.doExplosionA();
+        explosion.doExplosionB(true);
         return false;
     }
 
@@ -63,6 +60,5 @@ public class BlastEffect extends SpellEffect
     @Override
     public void processBlockWithinRadius(Spellcast cast, BlockPos blockPos, IBlockState currentState, float r, @Nullable RayTraceResult mop)
     {
-
     }
 }

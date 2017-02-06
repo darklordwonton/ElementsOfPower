@@ -1,0 +1,72 @@
+{
+  "forge_marker": 1,
+  "defaults": {
+    "textures": {
+      "all": "ElementsOfPower:blocks/crumble_11"
+    },
+    "model": "cube_all",
+    "uvlock": true
+  },
+  "variants": {
+    "inventory": [
+      {}
+    ],
+    "strength": {
+      "1": {
+        "textures": {
+          "all": "ElementsOfPower:blocks/crumble_1"
+        }
+      },
+      "2": {
+        "textures": {
+          "all": "ElementsOfPower:blocks/crumble_2"
+        }
+      },
+      "3": {
+        "textures": {
+          "all": "ElementsOfPower:blocks/crumble_3"
+        }
+      },
+      "4": {
+        "textures": {
+          "all": "ElementsOfPower:blocks/crumble_4"
+        }
+      },
+      "5": {
+        "textures": {
+          "all": "ElementsOfPower:blocks/crumble_5"
+        }
+      },
+      "6": {
+        "textures": {
+          "all": "ElementsOfPower:blocks/crumble_6"
+        }
+      },
+      "7": {
+        "textures": {
+          "all": "ElementsOfPower:blocks/crumble_7"
+        }
+      },
+      "8": {
+        "textures": {
+          "all": "ElementsOfPower:blocks/crumble_8"
+        }
+      },
+      "9": {
+        "textures": {
+          "all": "ElementsOfPower:blocks/crumble_9"
+        }
+      },
+      "10": {
+        "textures": {
+          "all": "ElementsOfPower:blocks/crumble_10"
+        }
+      },
+      "11": {
+        "textures": {
+          "all": "ElementsOfPower:blocks/crumble_11"
+        }
+      }
+    }
+  }
+}

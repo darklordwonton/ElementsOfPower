@@ -2,12 +2,15 @@ package gigaherz.elementsofpower.spells.shapes;
 
 import gigaherz.elementsofpower.entities.EntityBall;
 import gigaherz.elementsofpower.spells.Spellcast;
+import gigaherz.elementsofpower.spells.effects.EarthEffect;
+import gigaherz.elementsofpower.spells.effects.LavaEffect;
 import gigaherz.elementsofpower.spells.effects.SpellEffect;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.RayTraceResult;
+import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.World;
 
 public class BallShape extends SpellShape
@@ -45,8 +48,10 @@ public class BallShape extends SpellShape
 
         if (!effect.processEntitiesAroundBefore(cast, mop.hitVec))
             return;
-
+        
         int force = cast.getDamageForce();
+        if (effect instanceof EarthEffect || effect instanceof LavaEffect)
+        	force = (int) (Math.sqrt(force) + 0.5);
         if (force > 0)
         {
             BlockPos bp = mop.getBlockPos();
@@ -60,6 +65,8 @@ public class BallShape extends SpellShape
                 bp = new BlockPos(mop.hitVec);
             }
 
+            cast.end = new Vec3d(bp);
+            
             int px = bp.getX();
             int py = bp.getY();
             int pz = bp.getZ();

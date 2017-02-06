@@ -1,6 +1,7 @@
 package gigaherz.elementsofpower.spells.effects;
 
 import gigaherz.elementsofpower.spells.Spellcast;
+import gigaherz.elementsofpower.spells.shapes.SingleShape;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockDirt;
 import net.minecraft.block.state.IBlockState;
@@ -22,7 +23,7 @@ public class WitherEffect extends SpellEffect
     @Override
     public int getColor(Spellcast cast)
     {
-        return 0xA0E0FF;
+        return 0x8A2BE2;
     }
 
     @Override
@@ -57,8 +58,11 @@ public class WitherEffect extends SpellEffect
     private void applyEffectsToEntity(Spellcast cast, double distance, EntityLivingBase e)
     {
         double lv = Math.max(0, cast.getDamageForce() - distance);
+        if (cast.getShape() instanceof SingleShape)
+        	lv *= 2;
 
         causePotionEffect(cast, e, MobEffects.WITHER, 0, lv, 100.0);
+        causePotionEffect(cast, e, MobEffects.INSTANT_DAMAGE, (int) Math.max(0.0, lv / 2 - 1), lv, 0.0);
     }
 
     @Override

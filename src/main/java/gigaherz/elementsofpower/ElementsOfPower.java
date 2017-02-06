@@ -28,8 +28,10 @@ import gigaherz.elementsofpower.recipes.ContainerChargeRecipe;
 import gigaherz.elementsofpower.recipes.GemstoneChangeRecipe;
 import gigaherz.elementsofpower.spelldust.BlockSpelldust;
 import gigaherz.elementsofpower.spelldust.ItemSpelldust;
-import gigaherz.elementsofpower.spells.blocks.BlockCushion;
+import gigaherz.elementsofpower.spells.blocks.BlockCrumblingStone;
 import gigaherz.elementsofpower.spells.blocks.BlockDust;
+import gigaherz.elementsofpower.spells.blocks.BlockFrost;
+import gigaherz.elementsofpower.spells.blocks.BlockMist;
 import net.minecraft.block.material.MapColor;
 import net.minecraft.block.material.Material;
 import net.minecraft.creativetab.CreativeTabs;
@@ -88,15 +90,13 @@ public class ElementsOfPower
     public static BlockRegistered essentializer;
     public static BlockRegistered dust;
     public static BlockRegistered mist;
-    public static BlockRegistered cushion;
+    public static BlockCrumblingStone crumble;
+    public static BlockRegistered frost;
     public static BlockRegistered cocoon;
     public static BlockRegistered spell_wire;
 
     public static BlockGemstoneOre gemstoneOre;
     public static BlockGemstone gemstoneBlock;
-
-    // Block Materials
-    public static Material materialCushion;
 
     // Item templates
     public static ItemMagicOrb magicOrb;
@@ -267,15 +267,17 @@ public class ElementsOfPower
         dust = new BlockDust("dust");
         GameRegistry.register(dust);
 
-        mist = new BlockDust("mist");
+        mist = new BlockMist("mist");
         GameRegistry.register(mist);
+        
+        crumble = new BlockCrumblingStone("crumble");
+        GameRegistry.register(crumble);
+        
+        frost = new BlockFrost("frost");
+        GameRegistry.register(frost);
 
         spell_wire = new BlockSpelldust("spell_wire");
         GameRegistry.register(spell_wire);
-
-        materialCushion = new MaterialCushion(MapColor.BLACK);
-        cushion = new BlockCushion("cushion");
-        GameRegistry.register(cushion);
 
         cocoon = new BlockCocoon("cocoon");
         GameRegistry.register(cocoon);

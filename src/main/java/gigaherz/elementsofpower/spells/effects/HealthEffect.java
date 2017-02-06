@@ -1,6 +1,7 @@
 package gigaherz.elementsofpower.spells.effects;
 
 import gigaherz.elementsofpower.spells.Spellcast;
+import gigaherz.elementsofpower.spells.shapes.SingleShape;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockDirt;
 import net.minecraft.block.state.IBlockState;
@@ -22,7 +23,7 @@ public class HealthEffect extends SpellEffect
     @Override
     public int getColor(Spellcast cast)
     {
-        return 0xA0E0FF;
+        return 0x00FF00;
     }
 
     @Override
@@ -57,6 +58,8 @@ public class HealthEffect extends SpellEffect
     private void applyEffectsToEntity(Spellcast cast, double distance, EntityLivingBase e)
     {
         double lv = Math.max(0, cast.getDamageForce() - distance);
+        if (cast.getShape() instanceof SingleShape)
+        	lv *= 2;
 
         int emp = cast.getEmpowering();
 

@@ -4,6 +4,8 @@ import gigaherz.elementsofpower.ElementsOfPower;
 import gigaherz.elementsofpower.network.AddVelocityPlayer;
 import gigaherz.elementsofpower.spells.Spellcast;
 import gigaherz.elementsofpower.spells.shapes.ConeShape;
+import gigaherz.elementsofpower.spells.shapes.LashShape;
+import gigaherz.elementsofpower.spells.shapes.SingleShape;
 import gigaherz.elementsofpower.spells.shapes.BeamShape;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockDynamicLiquid;
@@ -47,17 +49,19 @@ public class WindEffect extends SpellEffect
     public void processDirectHit(Spellcast cast, Entity entity, Vec3d hitVec)
     {
         int force = cast.getDamageForce();
-
+        if (cast.getShape() instanceof SingleShape)
+        	force *= 2;
+        
         if ((!(entity instanceof EntityLivingBase) && !(entity instanceof EntityItem))
                 || !entity.isEntityAlive())
             return;
 		
-		float damage = 3 + 3 * force;
-		if (cast.getShape() instanceof ConeShape || cast.getShape() instanceof BeamShape)
-			damage = damage / 3;
-		
-        entity.attackEntityFrom(DamageSource.causeIndirectMagicDamage(cast.player, cast.player), damage);
-		
+		float damage = 4 + 4 * force;
+		if (cast.getShape() instanceof ConeShape || cast.getShape() instanceof BeamShape || cast.getShape() instanceof LashShape)
+			damage = damage / 2;
+
+        if (entity != cast.player)
+        	entity.attackEntityFrom(DamageSource.causeIndirectMagicDamage(cast.player, cast.player), damage);		
         applyVelocity(cast, force, hitVec, entity, false);
     }
 

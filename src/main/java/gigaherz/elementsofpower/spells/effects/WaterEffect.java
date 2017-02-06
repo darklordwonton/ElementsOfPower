@@ -2,6 +2,8 @@ package gigaherz.elementsofpower.spells.effects;
 
 import gigaherz.elementsofpower.spells.Spellcast;
 import gigaherz.elementsofpower.spells.shapes.ConeShape;
+import gigaherz.elementsofpower.spells.shapes.LashShape;
+import gigaherz.elementsofpower.spells.shapes.SingleShape;
 import gigaherz.elementsofpower.spells.shapes.BeamShape;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockDynamicLiquid;
@@ -54,11 +56,14 @@ public class WaterEffect extends SpellEffect
     @Override
     public void processDirectHit(Spellcast cast, Entity entity, Vec3d hitVec)
     {
-        float damage = 3 + 3 * cast.getDamageForce();
-		if (cast.getShape() instanceof ConeShape || cast.getShape() instanceof BeamShape)
-			damage = damage / 3;
+        float damage = 4 + 4 * cast.getDamageForce();
+		if (cast.getShape() instanceof ConeShape || cast.getShape() instanceof BeamShape || cast.getShape() instanceof LashShape)
+			damage = damage / 2;
+        if (cast.getShape() instanceof SingleShape)
+        	damage *= 2;
 
-        entity.attackEntityFrom(DamageSource.causeIndirectMagicDamage(cast.player, cast.player), damage);
+        if (entity != cast.player)
+        	entity.attackEntityFrom(DamageSource.causeIndirectMagicDamage(cast.player, cast.player), damage);
     }
 
     @Override

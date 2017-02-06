@@ -25,18 +25,20 @@ public class SpellManager
     public static final SpellShape cone = new ConeShape();
     public static final SpellShape self = new SelfShape();
     public static final SpellShape single = new SingleShape();
+    public static final SpellShape lash = new LashShape();
 
     public static final SpellEffect flame = new FlameEffect();
     public static final SpellEffect water = new WaterEffect(false);
     public static final SpellEffect wind = new WindEffect();
-    public static final SpellEffect dust = new DustEffect();
-    public static final SpellEffect mist = new MistEffect();
+    public static final SpellEffect earth = new EarthEffect();
     public static final SpellEffect light = new LightEffect();
     public static final SpellEffect mining = new MiningEffect();
     public static final SpellEffect healing = new HealthEffect();
     public static final SpellEffect breaking = new WitherEffect();
-    public static final SpellEffect cushion = new CushionEffect();
+    public static final SpellEffect mist = new MistEffect();
+    public static final SpellEffect frost = new FrostEffect();
     public static final SpellEffect lava = new LavaEffect(false);
+    public static final SpellEffect explosion = new BlastEffect();
     public static final SpellEffect resurrection = new ResurrectionEffect();
     public static final SpellEffect waterSource = new WaterEffect(true);
     public static final SpellEffect lavaSource = new LavaEffect(true);
@@ -78,17 +80,19 @@ public class SpellManager
             shapes.put(Shape.Cone, cone);
             shapes.put(Shape.Self, self);
             shapes.put(Shape.Single, single);
+            shapes.put(Shape.Lash, lash);
             effects.put(Effect.Flame, flame);
             effects.put(Effect.Water, water);
             effects.put(Effect.Wind, wind);
-            effects.put(Effect.Dust, dust);
-            effects.put(Effect.Mist, mist);
+            effects.put(Effect.Earth, earth);
             effects.put(Effect.Light, light);
             effects.put(Effect.Mining, mining);
             effects.put(Effect.Healing, healing);
             effects.put(Effect.Breaking, breaking);
-            effects.put(Effect.Cushion, cushion);
+            effects.put(Effect.Mist, mist);
+            effects.put(Effect.Frost, frost);
             effects.put(Effect.Lava, lava);
+            effects.put(Effect.Explosion, explosion);
             effects.put(Effect.Resurrection, resurrection);
             effects.put(Effect.WaterSource, waterSource);
             effects.put(Effect.LavaSource, lavaSource);
@@ -213,7 +217,7 @@ public class SpellManager
                     effect = Effect.Wind;
                     break;
                 case Earth:
-                    effect = Effect.Dust;
+                    effect = Effect.Earth;
                     break;
                 case Light:
                     effect = Effect.Light;
@@ -244,64 +248,27 @@ public class SpellManager
 
             switch (e)
             {
-                case Fire:
-                    empowering++;
-                    break;
-                case Water:
-                    empowering--;
-                    break;
+            	case Fire:
+            		if (effect == Effect.Earth)
+            			effect = Effect.Lava;
+            		break;
+            	case Water:
+            		if (effect == Effect.Flame)
+            			effect = Effect.Mist;
+            		break;
                 case Air:
-                    switch (effect)
-                    {
-                        case Flame:
-                            break;
-                        case Wind:
-                            break;
-                        case Dust:
-                            effect = Effect.Cushion;
-                            break;
-                        case Cushion:
-                            break;
-                        case Water:
-                            effect = Effect.Mist;
-                            break;
-                        case Lava:
-                            effect = Effect.Flame;
-                            break;
-                        case Light:
-                            reset();
-                            break;
-                        case Mining:
-                            reset();
-                            break;
-                        case Healing:
-                            reset();
-                            break;
-                        case Breaking:
-                            reset();
-                            break;
-                        case Resurrection:
-                            reset();
-                            break;
-                        case WaterSource:
-                            reset();
-                            break;
-                        case LavaSource:
-                            effect = Effect.Flame;
-                            break;
+                	if (effect == Effect.Water)
+                		effect = Effect.Frost;
+                	break;
+                case Darkness:
+                    if (effect == Effect.Wind) {
+                        effect = Effect.Teleport;
+                        shape = Shape.Ball;
                     }
                     break;
-                case Life:
-                    switch (effect)
-                    {
-                        default:
-                            break;
-                        case Mining:
-                            effect = Effect.Teleport;
-                            shape = Shape.Ball;
-                            break;
-                    }
-                    break;
+                case Death:
+                	if (effect == Effect.Light)
+                		effect = Effect.Explosion;
             }
 
             sequence.add(e);

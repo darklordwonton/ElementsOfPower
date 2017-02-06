@@ -37,6 +37,7 @@ public class BlockDust extends BlockRegistered
         setSoundType(SoundType.CLOTH);
         setDefaultState(this.blockState.getBaseState()
                 .withProperty(DENSITY, 16));
+        setLightLevel(15);
     }
 
     @Deprecated
@@ -57,9 +58,12 @@ public class BlockDust extends BlockRegistered
     @Override
     public int getLightOpacity(IBlockState state)
     {
-        if (state.getBlock() != this)
-            return 16;
-        return state.getValue(DENSITY);
+        return 0;
+    }
+    
+    @Override
+    public int getLightValue(IBlockState state, IBlockAccess world, BlockPos pos) {
+    	return state.getValue(DENSITY) - 1;
     }
 
     @Override
@@ -74,12 +78,12 @@ public class BlockDust extends BlockRegistered
         return BlockRenderLayer.TRANSLUCENT;
     }
 
-    @Deprecated
+    /*@Deprecated
     @Override
     public boolean shouldSideBeRendered(IBlockState blockState, IBlockAccess blockAccess, BlockPos pos, EnumFacing side)
     {
         return true;
-    }
+    }*/
 
     @Override
     public void onBlockAdded(World worldIn, BlockPos pos, IBlockState state)
@@ -91,54 +95,13 @@ public class BlockDust extends BlockRegistered
 
     private void rescheduleUpdate(World worldIn, BlockPos pos, Random rand)
     {
-        worldIn.scheduleUpdate(pos, this, 4 + rand.nextInt(12));
+        worldIn.scheduleUpdate(pos, this, 40 + rand.nextInt(120));
     }
 
     @Override
     public void updateTick(World worldIn, BlockPos pos, IBlockState state, Random rand)
     {
         int density = state.getValue(DENSITY) - 1;
-        int maxGive = (int) Math.sqrt(density);
-
-        for (EnumFacing f : EnumFacing.VALUES)
-        {
-            BlockPos bp = pos.offset(f);
-            IBlockState neighbour = worldIn.getBlockState(bp);
-            if (neighbour.getBlock().isAir(neighbour, worldIn, bp)
-                    || neighbour.getBlock() == Blocks.FIRE)
-            {
-                boolean given = false;
-                if (density > maxGive)
-                {
-                    int d = rand.nextInt(maxGive);
-                    if (d > 0)
-                    {
-                        worldIn.setBlockState(bp, getDefaultState().withProperty(DENSITY, d));
-                        density -= d;
-                        given = true;
-                    }
-                }
-
-                if (!given)
-                    worldIn.setBlockToAir(bp);
-            }
-            else if (neighbour.getBlock() == this)
-            {
-                if (density > maxGive)
-                {
-                    int od = neighbour.getValue(DENSITY);
-                    if (od < 16)
-                    {
-                        int d = rand.nextInt(Math.min(16 - od, maxGive));
-                        if (d > 0)
-                        {
-                            worldIn.setBlockState(bp, getDefaultState().withProperty(DENSITY, od + d));
-                            density -= d;
-                        }
-                    }
-                }
-            }
-        }
 
         if (density <= 0)
         {

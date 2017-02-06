@@ -210,6 +210,8 @@ public class ClientProxy implements ISideProxy
         registerGemMeshDefinition(ElementsOfPower.magicRing, "magicRing");
         registerGemMeshDefinition(ElementsOfPower.magicWand, "magicWand");
         registerGemMeshDefinition(ElementsOfPower.magicStaff, "magicStaff");
+        
+        
     }
 
     private void registerGemMeshDefinition(Item item, String itemName)

@@ -3,11 +3,18 @@ package gigaherz.elementsofpower.spells.effects;
 import gigaherz.elementsofpower.ElementsOfPower;
 import gigaherz.elementsofpower.spells.Spellcast;
 import gigaherz.elementsofpower.spells.blocks.BlockDust;
+import gigaherz.elementsofpower.spells.shapes.BeamShape;
+import gigaherz.elementsofpower.spells.shapes.ConeShape;
+import gigaherz.elementsofpower.spells.shapes.LashShape;
+import gigaherz.elementsofpower.spells.shapes.SingleShape;
 import net.minecraft.block.Block;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.Entity;
+import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.init.Blocks;
+import net.minecraft.util.DamageSource;
 import net.minecraft.util.EnumParticleTypes;
+import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.RayTraceResult;
 import net.minecraft.util.math.Vec3d;
@@ -19,13 +26,13 @@ public class LightEffect extends SpellEffect
     @Override
     public int getColor(Spellcast cast)
     {
-        return 0x000000;
+        return 0xFFFFFF;
     }
 
     @Override
     public int getDuration(Spellcast cast)
     {
-        return 20 * 5;
+        return 20 * cast.getDamageForce();
     }
 
     @Override
@@ -37,7 +44,14 @@ public class LightEffect extends SpellEffect
     @Override
     public void processDirectHit(Spellcast cast, Entity entity, Vec3d hitVec)
     {
+        float damage = 4 + 4 * cast.getDamageForce();
+		if (cast.getShape() instanceof ConeShape || cast.getShape() instanceof BeamShape || cast.getShape() instanceof LashShape)
+			damage = damage / 2;
+        if (cast.getShape() instanceof SingleShape)
+        	damage *= 2;
 
+        if (entity != cast.player)
+        	entity.attackEntityFrom(DamageSource.causeIndirectMagicDamage(cast.player, cast.player), damage);
     }
 
     @Override
@@ -49,7 +63,15 @@ public class LightEffect extends SpellEffect
     @Override
     public void processEntitiesAroundAfter(Spellcast cast, Vec3d hitVec)
     {
-		
+        AxisAlignedBB aabb = new AxisAlignedBB(
+                hitVec.xCoord - cast.getDamageForce(),
+                hitVec.yCoord - cast.getDamageForce(),
+                hitVec.zCoord - cast.getDamageForce(),
+                hitVec.xCoord + cast.getDamageForce(),
+                hitVec.yCoord + cast.getDamageForce(),
+                hitVec.zCoord + cast.getDamageForce());
+
+        damageEntities(cast, hitVec, cast.world.getEntitiesWithinAABB(EntityLivingBase.class, aabb));
     }
 
     @Override

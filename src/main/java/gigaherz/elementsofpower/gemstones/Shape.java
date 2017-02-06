@@ -7,5 +7,6 @@ public enum Shape
     Beam,
     Cone,
     Self,
-    Single
+    Single,
+    Lash
 }

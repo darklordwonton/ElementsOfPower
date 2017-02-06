@@ -6,6 +6,7 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.RayTraceResult;
+import net.minecraft.util.math.Vec3d;
 
 public class SingleShape extends SpellShape
 {
@@ -28,6 +29,8 @@ public class SingleShape extends SpellShape
 
         if (mop != null)
         {
+            if (!cast.getEffect().processEntitiesAroundBefore(cast, mop.hitVec))
+                return;
             if (mop.typeOfHit == RayTraceResult.Type.ENTITY)
             {
                 cast.getEffect().processDirectHit(cast, mop.entityHit, mop.hitVec);
@@ -35,6 +38,7 @@ public class SingleShape extends SpellShape
             else if (mop.typeOfHit == RayTraceResult.Type.BLOCK)
             {
                 BlockPos pos = mop.getBlockPos();
+                cast.end = new Vec3d(pos);
                 IBlockState state = cast.world.getBlockState(pos);
                 cast.getEffect().processBlockWithinRadius(cast, pos, state, 0, mop);
             }

@@ -87,16 +87,6 @@ public class BlockMist extends BlockRegistered
         return BlockRenderLayer.TRANSLUCENT;
     }
 
-    @Deprecated
-    @Override
-    public boolean shouldSideBeRendered(IBlockState blockState, IBlockAccess blockAccess, BlockPos pos, EnumFacing side)
-    {
-        IBlockState current = blockAccess.getBlockState(pos);
-        IBlockState opposite = blockAccess.getBlockState(pos.offset(side.getOpposite()));
-
-        return opposite != current;
-    }
-
     @Override
     public void randomTick(World worldIn, BlockPos pos, IBlockState state, Random rand)
     {
@@ -153,6 +143,15 @@ public class BlockMist extends BlockRegistered
         }
 
         worldIn.scheduleUpdate(pos, this, rand.nextInt(10));
+    }
+    
+    @Override
+    public void onEntityCollidedWithBlock(World worldIn, BlockPos pos, IBlockState state, Entity entityIn)
+    {
+    	entityIn.motionX /= 4;
+    	entityIn.motionY /= 4;
+    	entityIn.motionZ /= 4;
+    	entityIn.fallDistance = 0;
     }
 
     @Deprecated

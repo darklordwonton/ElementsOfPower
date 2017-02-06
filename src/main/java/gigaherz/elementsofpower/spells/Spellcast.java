@@ -3,6 +3,7 @@ package gigaherz.elementsofpower.spells;
 import com.google.common.base.Predicates;
 import gigaherz.elementsofpower.database.MagicAmounts;
 import gigaherz.elementsofpower.spells.effects.SpellEffect;
+import gigaherz.elementsofpower.spells.shapes.LashShape;
 import gigaherz.elementsofpower.spells.shapes.SpellShape;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayer;
@@ -56,7 +57,7 @@ public class Spellcast
         else
         {
             remainingCastTime = effect.getDuration(this);
-            remainingInterval = effect.getInterval(this);
+        	remainingInterval = effect.getInterval(this);
         }
         totalCastTime = remainingCastTime;
     }
@@ -119,10 +120,11 @@ public class Spellcast
 
             if (remainingInterval <= 0)
             {
-                remainingInterval = effect.getInterval(this);
+            	remainingInterval = effect.getInterval(this);
 
                 if (!world.isRemote)
                 {
+                	System.out.println("update");
                     shape.spellTick(this);
                 }
             }
